@@ -65,6 +65,16 @@ ifneq (,$(findstring unix,$(platform)))
       endif
    endif
 
+else ifeq ($(platform), pocketchip)
+   TARGET := $(TARGET_NAME)_libretro.so
+   fpic := -fPIC
+   SHARED := -shared -Wl,-version-script=$(version_script)
+   HAVE_NETWORK=1
+   CFLAGS += -fomit-frame-pointer -ffast-math -marm
+   CFLAGS += -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard
+   CXXFLAGS += $(CFLAGS)
+
+
 # OS X
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
